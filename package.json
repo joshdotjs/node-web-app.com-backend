@@ -19,7 +19,7 @@
     "databaseh": "heroku pg:psql -a node-web-app",
     
     
-    "deploy": "git add . && git commit -m 'update' && git push heroku main"
+    "deploy": "git add . && git commit -m 'deploy' && git push heroku main && git push"
   },
   "engines": {
     "node": "18.13.0"
