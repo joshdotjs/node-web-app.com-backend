@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 
 // ==============================================
 
-router.get('/php', require('./controller/checkout-php-test'));
+router.get( '/php', require('./controller/checkout-php-test'));
+router.post('/php', require('./controller/checkout-php-test-post'));
 
 // ==============================================
 
