@@ -43,11 +43,11 @@ const checkoutPHP = async (req, res) => {
 
   const { cart, user } = req.body;
 
-  console.log('====================================');
-  console.log('cart: ', cart);
-  console.log('====================================')
-  console.log('user: ', user);
-  console.log('====================================')
+  // console.log('====================================');
+  // console.log('cart: ', cart);
+  // console.log('====================================')
+  // console.log('user: ', user);
+  // console.log('====================================')
 
   if (cart && cart.length > 0) {
 
@@ -65,8 +65,7 @@ const checkoutPHP = async (req, res) => {
         quantity: qty, //item.quantity,
       }
     });
-
-    console.log('line_items: ', line_items);
+    // console.log('line_items: ', line_items);
 
     // ------------------------------------------
 
@@ -94,10 +93,22 @@ const checkoutPHP = async (req, res) => {
         console.log('url: ', url);
         console.blue('making request to LARAVEL/api/orders');
 
+        const body = { cart, user, payment_intent_id };
+        console.log('body: ', body);
+
+
+        // fetch(`${process.env.FRONTEND_URL_LARAVEL}/api`)
+        //   .then(res => {
+        //     res.json();
+        //   })
+        //   .then(data => console.log('data: ', data))
+        //   .catch(e => console.log(e.error));
+
+
         fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json", },
-          body: JSON.stringify({ cart, user, payment_intent_id }),
+          body: JSON.stringify(body),
         })
           .then(res => res.json())
           .then((data) => {
@@ -115,7 +126,7 @@ const checkoutPHP = async (req, res) => {
       insertOrderInDB();
       
     } catch (e) {
-      console.red(e);
+      
       res.status(500).json({ error: e.message })
     }
   } else {
