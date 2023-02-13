@@ -5,18 +5,21 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 // ==============================================
 
-const response = (status, obj) => res.status(200).json(obj);
+const env = (key) => process.env[key];
 
 // ==============================================
 
 router.get('/php', (req, res) => {
-  const frontend_url = process.env.FRONTEND_URL_LARAVEL;
+  const frontend_url = env('FRONTEND_URL_LARAVEL');
   const message = '[POST] /api/checkout/';
   console.log(message);
   res.status(200).json({ 
     message,
     frontend_url,
-    josh: 'josh'
+    token_secret:       env('TOKEN_SECRET'),
+    stripe_private_key: env('STRIPE_PRIVATE_KEY'),
+    frontend_url_next:  env('FRONTEND_URL_NEXT'),
+    frontend_url_wp:    env('FRONTEND_URL_WP'),
   });
 });
 
