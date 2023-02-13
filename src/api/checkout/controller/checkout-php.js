@@ -6,8 +6,18 @@ const stripe = require("stripe")(env('STRIPE_PRIVATE_KEY'));
 
 const checkoutPHP = async (req, res) => {
 
-  const frontend_url = process.env.FRONTEND_URL_LARAVEL;
-
+  const frontend_url = env('FRONTEND_URL_LARAVEL');
+  const message = '[POST] /api/checkout/php';
+  console.log(message);
+  res.status(200).json({ 
+    message,
+    frontend_url,
+    token_secret:       env('TOKEN_SECRET'),
+    stripe_private_key: env('STRIPE_PRIVATE_KEY'),
+    frontend_url_next:  env('FRONTEND_URL_NEXT'),
+    frontend_url_wp:    env('FRONTEND_URL_WP'),
+  });
+  
   // --------------------------------------------
 
   // Checkout database flow:
@@ -26,86 +36,86 @@ const checkoutPHP = async (req, res) => {
   // --------------------------------------------
 
 
-  const { cart, user } = req.body;
+  // const { cart, user } = req.body;
 
-  console.log('====================================');
-  console.log('cart: ', cart);
-  console.log('====================================')
-  console.log('user: ', user);
-  console.log('====================================')
+  // console.log('====================================');
+  // console.log('cart: ', cart);
+  // console.log('====================================')
+  // console.log('user: ', user);
+  // console.log('====================================')
 
-  if (cart && cart.length > 0) {
+  // if (cart && cart.length > 0) {
 
-    console.log('endpoint hit!');
+  //   console.log('endpoint hit!');
 
-    const line_items = cart.map(({product: { title, price}, variant, qty}) => {
-      return {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: title,
-          },
-          unit_amount: price, //storeItem.priceInCents,
-        },
-        quantity: qty, //item.quantity,
-      }
-    });
+  //   const line_items = cart.map(({product: { title, price}, variant, qty}) => {
+  //     return {
+  //       price_data: {
+  //         currency: "usd",
+  //         product_data: {
+  //           name: title,
+  //         },
+  //         unit_amount: price, //storeItem.priceInCents,
+  //       },
+  //       quantity: qty, //item.quantity,
+  //     }
+  //   });
 
-    console.log('line_items: ', line_items);
+  //   console.log('line_items: ', line_items);
 
-    // ------------------------------------------
+  //   // ------------------------------------------
 
-    try {
+  //   try {
 
-      // Step 2:
-      const session = await stripe.checkout.sessions.create({
-        // payment_method_types: ["card", "afterpay_clearpay", "klarna"],
-        payment_method_types: ["card", "klarna"],
-        mode: "payment",
-        line_items,
-        success_url: `${frontend_url}/checkout-success`,
-        cancel_url: `${frontend_url}/checkout-fail`,
-        currency: 'USD',
-      });
-      // console.log('session: ', session);
+  //     // Step 2:
+  //     const session = await stripe.checkout.sessions.create({
+  //       // payment_method_types: ["card", "afterpay_clearpay", "klarna"],
+  //       payment_method_types: ["card", "klarna"],
+  //       mode: "payment",
+  //       line_items,
+  //       success_url: `${frontend_url}/checkout-success`,
+  //       cancel_url: `${frontend_url}/checkout-fail`,
+  //       currency: 'USD',
+  //     });
+  //     // console.log('session: ', session);
 
-      // Step 3:
-      const payment_intent_id = session.payment_intent;
-      console.log('payment_intent_id: ', payment_intent_id);
+  //     // Step 3:
+  //     const payment_intent_id = session.payment_intent;
+  //     console.log('payment_intent_id: ', payment_intent_id);
 
-      // Step 4:
-      const insertOrderInDB = () => {
-        const url = `${process.env.FRONTEND_URL_LARAVEL}/api/orders`;
-        console.log('url: ', url);
-        console.blue('making request to LARAVEL/api/orders');
+  //     // Step 4:
+  //     const insertOrderInDB = () => {
+  //       const url = `${process.env.FRONTEND_URL_LARAVEL}/api/orders`;
+  //       console.log('url: ', url);
+  //       console.blue('making request to LARAVEL/api/orders');
 
-        fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", },
-          body: JSON.stringify({ cart, user, payment_intent_id }),
-        })
-          .then(res => res.json())
-          .then((data) => {
-            console.log("***********************************");
-            console.log("response from LARAVEL/api/orders: ");
-            console.log('data: ', data);
-            console.log("***********************************");
+  //       fetch(url, {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json", },
+  //         body: JSON.stringify({ cart, user, payment_intent_id }),
+  //       })
+  //         .then(res => res.json())
+  //         .then((data) => {
+  //           console.log("***********************************");
+  //           console.log("response from LARAVEL/api/orders: ");
+  //           console.log('data: ', data);
+  //           console.log("***********************************");
 
-            // Send response to fontend
-            console.blue('sending response to frontend - which sends user to STRIPE checkout')
-            res.json({ url: session.url })
-          })
-          .catch(e => console.log(e.error));  
-      };
-      insertOrderInDB();
+  //           // Send response to fontend
+  //           console.blue('sending response to frontend - which sends user to STRIPE checkout')
+  //           res.json({ url: session.url })
+  //         })
+  //         .catch(e => console.log(e.error));  
+  //     };
+  //     insertOrderInDB();
       
-    } catch (e) {
-      console.red(e);
-      res.status(500).json({ error: e.message })
-    }
-  } else {
-    res.status(200).json({ message: 'empty cart', url: `${frontend_url}/checkout-fail` });
-  }
+  //   } catch (e) {
+  //     console.red(e);
+  //     res.status(500).json({ error: e.message })
+  //   }
+  // } else {
+  //   res.status(200).json({ message: 'empty cart', url: `${frontend_url}/checkout-fail` });
+  // }
 }
 
 // ==============================================

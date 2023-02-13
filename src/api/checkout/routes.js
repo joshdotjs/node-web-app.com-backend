@@ -6,10 +6,11 @@ const bodyParser = require('body-parser');
 // ==============================================
 
 router.get( '/php', require('./controller/checkout-php-test'));
-router.post('/php', require('./controller/checkout-php-test-post'));
+// router.post('/php', require('./controller/checkout-php-test-post'));
 
 // ==============================================
 
+// [POST] /api/checkout/php
 router.post('/php', require('./controller/checkout-php'));
 
 // ==============================================
