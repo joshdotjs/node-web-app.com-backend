@@ -36,6 +36,11 @@ const checkoutPHP = async (req, res) => {
   // --------------------------------------------
 
 
+  // AFTER TEA:
+  //  -1. test that this endpoint is working locally
+  //  -2. test that this endpoint is working on the server
+
+
   const { cart, user } = req.body;
 
   console.log('====================================');
