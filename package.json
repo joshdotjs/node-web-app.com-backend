@@ -12,11 +12,12 @@
     "seed": "knex seed:run",
     "reset-db": "npm run rollback && npm run migrate && npm run seed",
 
-    "migrateh": "heroku run knex migrate:latest -a ecommerce-nodejs",
-    "rollbackh": "heroku run knex migrate:rollback -a ecommerce-nodejs",
-    "seedh": "heroku run knex seed:run -a ecommerce-nodejs",
+    "migrateh": "heroku run knex migrate:latest -a node-web-app",
+    "rollbackh": "heroku run knex migrate:rollback -a node-web-app",
+    "seedh": "heroku run knex seed:run -a node-web-app",
     "reset-dbh": "npm run rollbackh && npm run migrateh && npm run seedh",
-    "databaseh": "heroku pg:psql -a ecommerce-nodejs",
+    "databaseh": "heroku pg:psql -a node-web-app",
+    
     
     "deploy": "git add . && git commit -m 'update' && git push heroku main"
   },
