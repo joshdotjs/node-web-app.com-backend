@@ -45,20 +45,23 @@ const checkoutWebhook = (request, response) => {
   };
 
 
-  if (type === 'payment_intent.created') {
-    console.yellow('Stage 1');
-  } else if (type === 'customer.created') {
-    console.green('Stage 2');
-  } else if (type === 'payment_intent.succeeded') {
+  // if (type === 'payment_intent.created') {
+  //   console.yellow('Stage 1');
+  // }  else if (type === 'customer.created') {
+  //   console.green('Stage 2');
+  // } else
+   if (type === 'payment_intent.succeeded') {
     console.log("***********************************");
     console.magenta('Stage 3');
     updateOrderStatus(3);
     console.log("***********************************");
-  } else if (type === 'charge.succeeded') {
-    console.yellow('Stage 4');
-  } else if (type === 'checkout.session.completed') {
-    console.cyan('Stage 5');
-  }
+  } 
+  // else if (type === 'charge.succeeded') {
+  //   console.yellow('Stage 4');
+  // } 
+  // else if (type === 'checkout.session.completed') {
+  //   console.cyan('Stage 5');
+  // }
 
   response.status(200).end(); // https://stackoverflow.com/a/68440790 -- "Client.Timeout exceeded while awaiting headers"
 }
