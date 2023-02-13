@@ -2,11 +2,13 @@
   "files.exclude": {
     // "package.json": true,
     "package-lock.json": true,
-    // ".gitignore": true,
-    // "node_modules": true,
+    ".gitignore": true,
+    "node_modules": true,
     ".eslintrc.json": true,
     "jest.config.js": true,
     "README.md": true,
-    "**/__tests__": true
+    "**/__tests__": true,
+    "knexfile.js": true,
+    "readme.txt": true
   }
 }

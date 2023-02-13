@@ -9,6 +9,19 @@ const response = (status, obj) => res.status(200).json(obj);
 
 // ==============================================
 
+router.get('/php', (req, res) => {
+  const frontend_url = process.env.FRONTEND_URL_LARAVEL;
+  const message = '[POST] /api/checkout/';
+  console.log(message);
+  res.status(200).json({ 
+    message,
+    frontend_url,
+    josh: 'josh'
+  });
+});
+
+// ==============================================
+
 router.post('/php', (req, res) => {
 
   const frontend_url = process.env.FRONTEND_URL_LARAVEL;
