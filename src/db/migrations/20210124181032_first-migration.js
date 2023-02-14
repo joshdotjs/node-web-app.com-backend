@@ -10,14 +10,18 @@ exports.up = async (knex) => {
     })
     .createTable('products', (tbl) => {
       tbl.increments('id');
-      tbl.string('title', 200).notNullable();
-      tbl.string('body', 200).notNullable();
-      tbl.string('category', 200).notNullable();
+      tbl.string('title', 64).notNullable();
+      tbl.string('sub_title', 64);
+      tbl.string('body', 1024);
+      tbl.string('category', 64);
+      tbl.string('gender', 8);
       tbl.integer('price').notNullable();
+      tbl.integer('price_compare');
       tbl.timestamps(false, true);
     })
     .createTable('variants', (tbl) => {
       tbl.increments('id');
+      tbl.string('img', 512).notNullable();
       tbl.string('size', 200).notNullable();
       tbl.string('color', 200).notNullable();
       tbl.integer('qty').notNullable();
