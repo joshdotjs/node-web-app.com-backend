@@ -12,11 +12,10 @@ const ProductsModel = require('./model');
 router.get('/', async (req, res) => {
 
   console.log('[GET] /api/products ');
+  
+  const { products, num_products } = await ProductsModel.getAllProductsAndVariants({ limit: 6, offset: 0 });
 
-  // const products = await ProductsModel.getAllProducts();
-  const products = await ProductsModel.getAllProductsAndVariants();
-
-  res.status(201).json(products);
+  res.status(201).json({ products, num_products });
 });
 
 // ==============================================

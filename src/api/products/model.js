@@ -8,9 +8,9 @@ const getAllProducts = async () => {
 
 // ==============================================
 
-const getAllProductsAndVariants = async () => { 
+const getAllProductsAndVariants = async ({ limit, offset }) => { 
 
-  const products = await db('products');
+  const products = await db('products').limit(limit).offset(offset);
 
   for (let i = 0; i < products.length; ++i) {
     const product = products[i];
@@ -19,7 +19,9 @@ const getAllProductsAndVariants = async () => {
     product.variants = variants;
   }
 
-  return products;
+  const num_products = await db('products').count();
+
+  return { products, num_products };
 };
 // ==============================================
 
