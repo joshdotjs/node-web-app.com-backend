@@ -8,6 +8,21 @@ const getAllProducts = async () => {
 
 // ==============================================
 
+const getAllProductsAndVariants = async () => { 
+
+  const products = await db('products');
+
+  for (let i = 0; i < products.length; ++i) {
+    const product = products[i];
+    const variants = await db('variants')
+      .where({ product_id: product.id });
+    product.variants = variants;
+  }
+
+  return products;
+};
+// ==============================================
+
 const getProductById = async (id) => {
   const products = await db('products')
     .where({ id: Number(id) })
@@ -72,6 +87,7 @@ async function remove(id) {
 
 module.exports = {
   getAllProducts,
+  getAllProductsAndVariants,
   getProductById,
   insertProduct,
   getVariantsByProductId,

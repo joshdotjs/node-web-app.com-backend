@@ -6,7 +6,6 @@ const db = required('db/db-config');
 const authMiddleware = required(`api/auth/middleware`);
 const ProductsModel = require('./model');
 
-
 // ==============================================
 
 // Get all products
@@ -14,7 +13,8 @@ router.get('/', async (req, res) => {
 
   console.log('[GET] /api/products ');
 
-  const products = await ProductsModel.getAllProducts();
+  // const products = await ProductsModel.getAllProducts();
+  const products = await ProductsModel.getAllProductsAndVariants();
 
   res.status(201).json(products);
 });
