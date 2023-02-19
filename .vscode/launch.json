@@ -6,6 +6,10 @@
   "configurations": [
     {
       "type": "node",
+      "runtimeVersion": "18.13.0",
+      // "engines": {
+      //   "node": "18.13.0"
+      // },
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": [

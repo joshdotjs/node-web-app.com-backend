@@ -96,14 +96,12 @@ const checkoutPHP = async (req, res) => {
         const body = { cart, user, payment_intent_id };
         console.log('body: ', body);
 
-
         // fetch(`${process.env.FRONTEND_URL_LARAVEL}/api`)
         //   .then(res => {
         //     res.json();
         //   })
         //   .then(data => console.log('data: ', data))
         //   .catch(e => console.log(e.error));
-
 
         fetch(url, {
           method: "POST",
@@ -119,13 +117,18 @@ const checkoutPHP = async (req, res) => {
 
             // Send response to fontend
             console.blue('sending response to frontend - which sends user to STRIPE checkout')
-            res.json({ url: session.url })
+            res.json({ 
+              url: session.url,
+              payment_intent_id,
+            })
           })
           .catch(e => console.log(e.error));  
       };
       insertOrderInDB();
       
     } catch (e) {
+
+      console.error('error: ', e.message);
       
       res.status(500).json({ error: e.message })
     }
